@@ -68,21 +68,21 @@ VERSÃO COM BANCO DE DADOS (jpa)
 
 @MappedSuperclass
 @Where(clause = "deleted_at IS NULL") // Filtro para soft delete
-public abstract class BaseEntityJpa {
+public abstract class BaseEntity {
 
     @Id
-    @Column(name = "id", columnDefinition = "CHAR(36)")
+    @Column(name = "ID", columnDefinition = "CHAR(36)")
     private String id;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp / @LastModifiedDate
-    @Column(name = "updated_at")
+    @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at")
+    @Column(name = "DELETED_AT")
     private LocalDateTime deletedAt;
 
     @PrePersist

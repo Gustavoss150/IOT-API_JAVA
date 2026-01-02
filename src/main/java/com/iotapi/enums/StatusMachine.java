@@ -1,18 +1,17 @@
 package com.iotapi.enums;
 
-public enum StatusReservation {
-    APPROVED("approved"),
-    PENDING("pending"),
-    REJECT("reject");
-
+public enum StatusMachine {
+    AVAILABLE("availvable"),
+    IN_USE("in_use"),
+    MAINTENANCE("maintenance");
+    
     private final String value;
-
-    StatusReservation(String value) {
+    
+    StatusMachine(String value) {
         this.value = value;
     }
-
-    public static StatusReservation fromValue(String value) {
-        for (StatusReservation status : values()) {
+    public static StatusMachine fromValue(String value) {
+        for (StatusMachine status : values()) {
             if (status.value.equalsIgnoreCase(value)) {
                 return status;
             }
@@ -23,8 +22,7 @@ public enum StatusReservation {
     public String getValue() {
         return value;
     }
+
 }
-
-
 
 
