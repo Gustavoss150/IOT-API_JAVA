@@ -17,6 +17,8 @@ public class Reservation extends BaseEntity {
         super();
         this.status = StatusReservation.PENDING;
     }
+    // super() = execute o construtor da classe pai antes da do filho,
+    // usado normalmente em memória (com banco (JPA), o super() é implicíto, não precisa chamar)
 
     public Reservation(String userId, String equipmentId, LocalDateTime reservationStart, LocalDateTime reservationEnd) {
         this();
