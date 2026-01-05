@@ -68,4 +68,28 @@ public class MachineRepository {
     public void hardDeleteById(String id) {
         machines.remove(id);
     }
+
+    // Método para limpar todos os dados (apenas para testes)
+    public void clearAll() {
+        machines.clear();
+    }
+
+    // Método para popular dados de teste
+    public void populateTestData() {
+        for (int i = 1; i <= 10; i++) {
+            Machine machine = new Machine(
+                    "Máquina " + i,
+                    "Descrição da máquina " + i + " - Modelo XYZ"
+            );
+
+            // Alterna status para teste
+            if (i % 3 == 0) {
+                machine.setStatus(StatusMachine.MAINTENANCE);
+            } else if (i % 3 == 1) {
+                machine.setStatus(StatusMachine.IN_USE);
+            }
+
+            save(machine);
+        }
+    }
 }

@@ -49,8 +49,8 @@ public class Reservation extends BaseEntity {
         return machineId;
     }
 
-    public void setMachineId(String getMachineId) {
-        this.machineId = machineId;
+    public void setMachineId(String machineId) {
+        this.machineId = this.machineId;
     }
 
     public LocalDateTime getReservationStart() {
