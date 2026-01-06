@@ -1,7 +1,7 @@
 package com.iotapi.services.impl;
 
 import com.iotapi.dto.ReservationDTO;
-import com.iotapi.dto.ReservationRequestDTO;
+import com.iotapi.dto.CadastroReservationDTO;
 import com.iotapi.entities.Reservation;
 import com.iotapi.repository.ReservationRepository;
 import com.iotapi.services.ReservationService;
@@ -18,14 +18,14 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationRepository repository;
 
-    public ReservationDTO createReservation(ReservationRequestDTO request) {
+    public ReservationDTO createReservation(CadastroReservationDTO dto) {
 
-        validateDates(request.getReservationStart(), request.getReservationEnd());
+        validateDates(dto.getReservationStart(), dto.getReservationEnd());
 
         boolean hasConflict = repository.hasReservationConflict(
-                request.getMachineId(),
-                request.getReservationStart(),
-                request.getReservationEnd(),
+                dto.getMachineId(),
+                dto.getReservationStart(),
+                dto.getReservationEnd(),
                 null
         );
 
@@ -34,10 +34,10 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         Reservation reservation = new Reservation(
-                request.getUserId(),
-                request.getMachineId(),
-                request.getReservationStart(),
-                request.getReservationEnd()
+                dto.getUserId(),
+                dto.getMachineId(),
+                dto.getReservationStart(),
+                dto.getReservationEnd()
         );
 
         repository.save(reservation);
