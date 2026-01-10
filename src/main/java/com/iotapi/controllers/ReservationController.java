@@ -1,7 +1,7 @@
 package com.iotapi.controllers;
 
+import com.iotapi.dto.CadastroReservationDTO;
 import com.iotapi.dto.ReservationDTO;
-import com.iotapi.dto.ReservationRequestDTO;
 import com.iotapi.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class ReservationController {
     ReservationService service;
 
     @PostMapping
-    public ResponseEntity<ReservationDTO> create(@Valid @RequestBody ReservationRequestDTO request) {
-        ReservationDTO created = service.createReservation(request);
+    public ResponseEntity<ReservationDTO> create(@Valid @RequestBody CadastroReservationDTO dto) {
+        ReservationDTO created = service.createReservation(dto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
