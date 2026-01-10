@@ -1,6 +1,7 @@
 package com.iotapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.iotapi.entities.Reservation;
 import com.iotapi.enums.StatusReservation;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,19 @@ public class ReservationDTO {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime deletedAt;
+
+    public ReservationDTO(Reservation reservation) {
+        this.id = reservation.getId();
+        this.userId = reservation.getUserId();
+        this.machineId = reservation.getMachineId();
+        this.responsibleId = reservation.getResponsibleId();
+        this.reservationStart = reservation.getReservationStart();
+        this.reservationEnd = reservation.getReservationEnd();
+        this.status = reservation.getStatus();
+        this.createdAt = reservation.getCreatedAt();
+        this.updatedAt = reservation.getUpdatedAt();
+        this.deletedAt = reservation.getDeletedAt();
+    }
 
     public String getId() {
         return id;
