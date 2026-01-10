@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-public class ReservationRequestDTO {
+public class CadastroReservationDTO {
 
     @NotBlank(message = "UserId is required")
     private String userId;

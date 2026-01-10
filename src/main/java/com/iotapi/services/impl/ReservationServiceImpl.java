@@ -19,17 +19,20 @@ public class ReservationServiceImpl implements ReservationService {
     private ReservationRepository repository;
 
     public ReservationDTO createReservation(ReservationRequestDTO request) {
+
         validateDates(request.getReservationStart(), request.getReservationEnd());
 
-        if (repository.hasReservationConflict(
+        boolean hasConflict = repository.hasReservationConflict(
                 request.getMachineId(),
                 request.getReservationStart(),
                 request.getReservationEnd(),
-                null)) {
+                null
+        );
+
+        if (hasConflict) {
             throw new IllegalStateException("Máquina já reservada neste período");
         }
 
-        // Cria e salva
         Reservation reservation = new Reservation(
                 request.getUserId(),
                 request.getMachineId(),
@@ -37,19 +40,30 @@ public class ReservationServiceImpl implements ReservationService {
                 request.getReservationEnd()
         );
 
-        Reservation saved = repository.save(reservation);
-        return new ReservationDTO(saved);
+        repository.save(reservation);
+        return responseDTO(reservation);
     }
 
     private void validateDates(LocalDateTime start, LocalDateTime end) {
-        if (start == null || end == null) {
-            throw new IllegalArgumentException("Datas não podem ser nulas");
-        }
         if (end.isBefore(start) || end.isEqual(start)) {
-            throw new IllegalArgumentException("Horário de término deve ser após o início");
+            throw new IllegalArgumentException("Horário de agendamento inválido");
         }
-        if (start.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Data de início não pode ser no passado");
-        }
+    }
+
+    private ReservationDTO responseDTO(Reservation reservation) {
+        ReservationDTO dto = new ReservationDTO();
+
+        dto.setId(reservation.getId());
+        dto.setUserId(reservation.getUserId());
+        dto.setMachineId(reservation.getMachineId());
+        dto.setResponsibleId(reservation.getResponsibleId());
+        dto.setReservationStart(reservation.getReservationStart());
+        dto.setReservationEnd(reservation.getReservationEnd());
+        dto.setStatus(reservation.getStatus());
+        dto.setCreatedAt(reservation.getCreatedAt());
+        dto.setUpdatedAt(reservation.getUpdatedAt());
+        dto.setDeletedAt(reservation.getDeletedAt());
+
+        return dto;
     }
 }
