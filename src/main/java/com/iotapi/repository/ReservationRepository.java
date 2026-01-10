@@ -52,13 +52,13 @@ public class ReservationRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<Reservation> findByEquipmentId(String machineId) {
+    public List<Reservation> findByMachineId(String machineId) {
         return reservations.values().stream()
-                .filter(r -> machineId.equals(r.getEquipmentId()) && !r.isDeleted())
+                .filter(r -> machineId.equals(r.getMachineId()) && !r.isDeleted())
                 .collect(Collectors.toList());
     }
 
-    public List<Reservation> finByStatus(StatusReservation status) {
+    public List<Reservation> findByStatus(StatusReservation status) {
         return reservations.values().stream()
                 .filter(r -> status.equals(r.getStatus()) && !r.isDeleted())
                 .collect(Collectors.toList());
@@ -67,7 +67,7 @@ public class ReservationRepository {
     public boolean hasReservationConflict(String equipmentId, LocalDateTime start, LocalDateTime end, String excludeReservationId) {
 
         return reservations.values().stream()
-                .filter(r -> r.getEquipmentId().equals(equipmentId))
+                .filter(r -> r.getMachineId().equals(equipmentId))
                 .filter(r -> !r.isDeleted())
                 .filter(r -> r.getStatus() == StatusReservation.APPROVED)
                 .filter(r -> !r.getId().equals(excludeReservationId))  // EXCLUI A SI MESMA

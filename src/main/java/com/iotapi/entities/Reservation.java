@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class Reservation extends BaseEntity {
 
     private String userId;
-    private String equipmentId;
+    private String machineId;
     private String responsibleId;
     private LocalDateTime reservationStart;
     private LocalDateTime reservationEnd;
@@ -20,10 +20,10 @@ public class Reservation extends BaseEntity {
     // super() = execute o construtor da classe pai antes da do filho,
     // usado normalmente em memória (com banco (JPA), o super() é implicíto, não precisa chamar)
 
-    public Reservation(String userId, String equipmentId, LocalDateTime reservationStart, LocalDateTime reservationEnd) {
+    public Reservation(String userId, String machineId, LocalDateTime reservationStart, LocalDateTime reservationEnd) {
         this();
         this.userId = userId;
-        this.equipmentId = equipmentId;
+        this.machineId = machineId;
         this.reservationStart = reservationStart;
         this.reservationEnd = reservationEnd;
     }
@@ -45,12 +45,12 @@ public class Reservation extends BaseEntity {
         this.responsibleId = responsibleId;
     }
 
-    public String getEquipmentId() {
-        return equipmentId;
+    public String getMachineId() {
+        return machineId;
     }
 
-    public void setEquipmentId(String equipmentId) {
-        this.equipmentId = equipmentId;
+    public void setMachineId(String machineId) {
+        this.machineId = this.machineId;
     }
 
     public LocalDateTime getReservationStart() {
