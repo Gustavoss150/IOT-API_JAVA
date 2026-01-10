@@ -25,6 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationRepository repository;
 
+    @Override
     public ReservationDTO createReservation(CadastroReservationDTO dto) {
 
         validateDates(dto.getReservationStart(), dto.getReservationEnd());
@@ -51,15 +52,18 @@ public class ReservationServiceImpl implements ReservationService {
         return new ReservationDTO(saved);
     }
 
+    @Override
     public ReservationDTO getById(String id) {
         Reservation reservation = repository.findById(id).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
         return new ReservationDTO(reservation);
     }
 
+    @Override
     public List<ReservationDTO> getAll() {
         return repository.findAll().stream().map(ReservationDTO::new).collect(Collectors.toList());
     }
 
+    @Override
     public List<ReservationDTO> getAllApproved() {
         List<ReservationDTO> approved =  repository.findByStatus(StatusReservation.APPROVED)
                 .stream()
