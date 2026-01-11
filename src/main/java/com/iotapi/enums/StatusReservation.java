@@ -3,7 +3,7 @@ package com.iotapi.enums;
 public enum StatusReservation {
     APPROVED("approved"),
     PENDING("pending"),
-    REJECT("reject");
+    REJECTED("reject");
 
     private final String value;
 

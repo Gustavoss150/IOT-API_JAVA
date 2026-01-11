@@ -64,10 +64,10 @@ public class ReservationRepository {
                 .collect(Collectors.toList());
     }
 
-    public boolean hasReservationConflict(String equipmentId, LocalDateTime start, LocalDateTime end, String excludeReservationId) {
+    public boolean hasReservationConflict(String machineId, LocalDateTime start, LocalDateTime end, String excludeReservationId) {
 
         return reservations.values().stream()
-                .filter(r -> r.getMachineId().equals(equipmentId))
+                .filter(r -> r.getMachineId().equals(machineId))
                 .filter(r -> !r.isDeleted())
                 .filter(r -> r.getStatus() == StatusReservation.APPROVED)
                 .filter(r -> !r.getId().equals(excludeReservationId))  // EXCLUI A SI MESMA
