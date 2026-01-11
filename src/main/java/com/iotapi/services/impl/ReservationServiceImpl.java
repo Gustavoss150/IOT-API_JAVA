@@ -77,6 +77,60 @@ public class ReservationServiceImpl implements ReservationService {
         return approved;
     }
 
+    @Override
+    public List<ReservationDTO> getAllPending() {
+        List<ReservationDTO> pending = repository.findByStatus(StatusReservation.PENDING)
+                .stream()
+                .map(ReservationDTO::new)
+                .collect(Collectors.toList());
+        if (pending.isEmpty()) {
+            log.info("Não há reservas pendentes de aprovação.");
+        }
+
+        return pending;
+    }
+
+    @Override
+    public ReservationDTO approveReservation(String id) {
+        Reservation reservation = validateReservationForStatusChange(id);
+
+        boolean conflict = repository.hasReservationConflict(
+                reservation.getMachineId(),
+                reservation.getReservationStart(),
+                reservation.getReservationEnd(),
+                reservation.getId()
+        );
+
+        if (conflict) {
+            throw new IllegalStateException("Não é possível aprovar - conflito com reserva aprovada existente");
+        }
+
+        reservation.setStatus(StatusReservation.APPROVED);
+        Reservation approved = repository.save(reservation);
+        return new ReservationDTO(approved);
+    }
+
+    @Override
+    public ReservationDTO rejectReservation(String id) {
+        Reservation reservation = validateReservationForStatusChange(id);
+
+        reservation.setStatus(StatusReservation.REJECTED);
+        Reservation rejected = repository.save(reservation);
+        return new ReservationDTO(rejected);
+    }
+
+    private Reservation validateReservationForStatusChange(String id) {
+        Reservation reservation = repository.findById(id).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+
+        if (reservation.getStatus() != StatusReservation.PENDING) {
+            throw new IllegalStateException(
+                    String.format("Reserva não está no status esperado. Status atual: %s", reservation.getStatus())
+            );
+        }
+
+        return reservation;
+    }
+
     private void validateDates(LocalDateTime start, LocalDateTime end) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("Datas não podem ser nulas");

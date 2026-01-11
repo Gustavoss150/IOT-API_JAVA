@@ -10,4 +10,9 @@ public interface ReservationService {
     ReservationDTO getById(String id);
     List<ReservationDTO> getAll();
     List<ReservationDTO> getAllApproved();
+
+    List<ReservationDTO> getAllPending();
+
+    ReservationDTO approveReservation(String id);
+    ReservationDTO rejectReservation(String id);
 }
