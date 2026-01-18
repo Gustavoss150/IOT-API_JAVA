@@ -49,6 +49,8 @@ public class ReservationServiceImpl implements ReservationService {
         );
 
         Reservation saved = repository.save(reservation);
+        log.info("Reserva criada: id={}", saved.getId());
+
         return new ReservationDTO(saved);
     }
 

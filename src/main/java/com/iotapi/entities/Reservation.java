@@ -84,7 +84,7 @@ public class Reservation extends BaseEntity {
     }
 
     public void reject(String responsibleId) {
-        this.status = StatusReservation.REJECT;
+        this.status = StatusReservation.REJECTED;
         this.responsibleId = responsibleId;
         updateTimestamp();
     }
