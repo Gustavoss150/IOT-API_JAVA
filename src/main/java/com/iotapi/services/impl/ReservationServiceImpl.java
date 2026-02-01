@@ -67,29 +67,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationDTO> getAllApproved() {
-        List<ReservationDTO> approved =  repository.findByStatus(StatusReservation.APPROVED)
-                .stream()
-                .map(ReservationDTO::new)
-                .collect(Collectors.toList());
-
-        if (approved.isEmpty()) {
-            log.info("Não há reservas aprovadas.");
-        }
-
-        return approved;
+        return getByStatus(StatusReservation.APPROVED);
     }
 
     @Override
     public List<ReservationDTO> getAllPending() {
-        List<ReservationDTO> pending = repository.findByStatus(StatusReservation.PENDING)
-                .stream()
-                .map(ReservationDTO::new)
-                .collect(Collectors.toList());
-        if (pending.isEmpty()) {
-            log.info("Não há reservas pendentes de aprovação.");
-        }
-
-        return pending;
+        return getByStatus(StatusReservation.PENDING);
     }
 
     @Override
@@ -143,6 +126,18 @@ public class ReservationServiceImpl implements ReservationService {
         if (start.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Data de início não pode ser no passado");
         }
+    }
+
+    private List<ReservationDTO> getByStatus(StatusReservation status) {
+        List<ReservationDTO> reservations = repository.findByStatus(status).stream().map(ReservationDTO::new).collect(Collectors.toList());
+
+        if (reservations.isEmpty()) {
+            log.info("Não há reservas com o status: {}", status);
+        } else {
+            log.debug("Encontradas {} reservas com status {}", reservations.size(), status);
+        }
+
+        return reservations;
     }
 
 }

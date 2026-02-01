@@ -1,5 +1,4 @@
-// src/test/java/com/iotapi/repository/MachineRepositoryTest.java
-package com.iotapi.repository_test;
+package repository_test;
 
 import com.iotapi.entities.Machine;
 import com.iotapi.enums.StatusMachine;
