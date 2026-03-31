@@ -50,16 +50,7 @@ public class MachineServiceImpl implements MachineService {
     }
 
     @Override
-    public List<MachineDTO> getAllInUse() {
-        return getByStatus(StatusMachine.IN_USE);
-    }
-
-    @Override
-    public List<MachineDTO> getAllAvailable() {
-        return getByStatus(StatusMachine.AVAILABLE);
-    }
-
-    private List<MachineDTO> getByStatus(StatusMachine status) {
+    public List<MachineDTO> getAllByStatus(StatusMachine status) {
         List<MachineDTO> machines = repository.findByStatus(status).stream().map(MachineDTO::new).collect(Collectors.toList());
 
         if (machines.isEmpty()) {

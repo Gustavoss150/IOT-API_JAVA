@@ -2,6 +2,7 @@ package com.iotapi.controllers;
 
 import com.iotapi.dto.CadastroMachineDTO;
 import com.iotapi.dto.MachineDTO;
+import com.iotapi.enums.StatusMachine;
 import com.iotapi.services.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +40,10 @@ public class MachineController {
     @GetMapping("/")
     public ResponseEntity<List<MachineDTO>> getAll() {
         return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/statusList")
+    public ResponseEntity<List<MachineDTO>> getAllByStatus(@RequestParam StatusMachine statusList) {
+        return ResponseEntity.ok(service.getAllByStatus(statusList));
     }
 }
