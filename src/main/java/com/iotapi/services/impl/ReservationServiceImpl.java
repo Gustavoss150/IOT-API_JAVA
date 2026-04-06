@@ -76,32 +76,25 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationDTO approveReservation(String id) {
+    public ReservationDTO processReservation(String id, StatusReservation status) {
         Reservation reservation = validateReservationForStatusChange(id);
 
-        boolean conflict = repository.hasReservationConflict(
-                reservation.getMachineId(),
-                reservation.getReservationStart(),
-                reservation.getReservationEnd(),
-                reservation.getId()
-        );
+        if (status == StatusReservation.APPROVED) {
+            boolean conflict = repository.hasReservationConflict(
+                    reservation.getMachineId(),
+                    reservation.getReservationStart(),
+                    reservation.getReservationEnd(),
+                    reservation.getId()
+            );
 
-        if (conflict) {
-            throw new IllegalStateException("Não é possível aprovar - conflito com reserva aprovada existente");
+            if (conflict) {
+                throw new IllegalStateException("Não é possível aprovar - conflito com reserva aprovada existente");
+            }
         }
 
-        reservation.setStatus(StatusReservation.APPROVED);
+        reservation.setStatus(status);
         Reservation approved = repository.save(reservation);
         return new ReservationDTO(approved);
-    }
-
-    @Override
-    public ReservationDTO rejectReservation(String id) {
-        Reservation reservation = validateReservationForStatusChange(id);
-
-        reservation.setStatus(StatusReservation.REJECTED);
-        Reservation rejected = repository.save(reservation);
-        return new ReservationDTO(rejected);
     }
 
     private Reservation validateReservationForStatusChange(String id) {

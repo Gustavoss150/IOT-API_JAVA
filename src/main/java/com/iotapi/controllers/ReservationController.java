@@ -2,6 +2,7 @@ package com.iotapi.controllers;
 
 import com.iotapi.dto.CadastroReservationDTO;
 import com.iotapi.dto.ReservationDTO;
+import com.iotapi.enums.StatusReservation;
 import com.iotapi.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,15 +53,9 @@ public class ReservationController {
         return ResponseEntity.ok(service.getAllPending());
     }
 
-    @PatchMapping("/approve/{id}")
-    public ResponseEntity<ReservationDTO> approve(@PathVariable String id) {
-        ReservationDTO approved = service.approveReservation(id);
-        return ResponseEntity.ok(approved);
-    }
-
-    @PatchMapping("/reject/{id}")
-    public ResponseEntity<ReservationDTO> reject(@PathVariable String id) {
-        ReservationDTO rejected = service.rejectReservation(id);
-        return ResponseEntity.ok(rejected);
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ReservationDTO> approve(@PathVariable String id, @RequestParam StatusReservation status) {
+        ReservationDTO processed = service.processReservation(id, status);
+        return ResponseEntity.ok(processed);
     }
 }
